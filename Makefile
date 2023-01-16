@@ -8,7 +8,7 @@ MINGW_TARGET = i686-w64-mingw32
 
 # Toolchain executables
 CC = $(MINGW_TARGET)-gcc
-AS = $(CC) -xassembler-with-cpp
+AS = nasm -f elf32
 CXX = $(MINGW_TARGET)-g++
 
 CXXFLAGS = -std=c++20 -Os -ffreestanding -fno-threadsafe-statics -fno-rtti -fno-exceptions -fno-ident -fno-stack-protector -fomit-frame-pointer -fno-unwind-tables -fno-asynchronous-unwind-tables -march=pentium2 -Iinclude -Isrc
@@ -32,7 +32,7 @@ floppy: $(BINDIR)/$(NAME).exe
 
 # test w/ bochs.
 test: floppy
-	bochs -qf res/test.bochsrc
+	-echo 'c' | bochs -qf res/test.bochsrc 2>/dev/null
 
 # dir rules
 $(BINDIR)/:
@@ -49,9 +49,9 @@ $(OBJDIR)/%.o: %.cpp
 	@echo "CXX $<"
 	@$(CXX) -c $(CXXFLAGS) $< -o $@
 
-$(OBJDIR)/%.o: %.S
-	@echo "AS $<"
-	@$(AS) -c $< -o $@
+$(OBJDIR)/%.o: %.asm
+	@echo "NASM $<"
+	@$(AS) $< -o $@
 
 clean:
 	rm -rf $(BINDIR)/ $(OBJDIR)/
