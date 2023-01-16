@@ -1,13 +1,14 @@
-	// A very tiny embedded library thing
+#pragma once
+// A very tiny embedded library thing
 
-	using u8 = unsigned char;
-	using s8 = char;
-	using u16 = unsigned short;
-	using s16 = short;
-	using u32 = unsigned int;
-	using s32 = int;
+using u8 = unsigned char;
+using s8 = char;
+using u16 = unsigned short;
+using s16 = short;
+using u32 = unsigned int;
+using s32 = int;
 
-	namespace lib {
+namespace lib {
 
 	constexpr auto Strlen(const char* str) {
 		auto newptr = str;
@@ -106,4 +107,4 @@
 		extern "C" u32 ets_syscall_helper(u16 no, u16 arg);
 	}
 
-	} // namespace lib
+} // namespace lib
