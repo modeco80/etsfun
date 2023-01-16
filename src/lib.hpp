@@ -1,13 +1,13 @@
-// A very tiny embedded library thing
+	// A very tiny embedded library thing
 
-using u8 = unsigned char;
-using s8 = char;
-using u16 = unsigned short;
-using s16 = short;
-using u32 = unsigned int;
-using s32 = int;
+	using u8 = unsigned char;
+	using s8 = char;
+	using u16 = unsigned short;
+	using s16 = short;
+	using u32 = unsigned int;
+	using s32 = int;
 
-namespace lib {
+	namespace lib {
 
 	constexpr auto Strlen(const char* str) {
 		auto newptr = str;
@@ -22,7 +22,7 @@ namespace lib {
 			u8 row = 0;
 			u8 column = 0;
 
-            u8 color = 0;
+			u8 color = 0;
 
 			constexpr VgaState() {
 				Reset();
@@ -31,7 +31,7 @@ namespace lib {
 			constexpr void Reset() {
 				row = 0;
 				column = 0;
-                color = VgaColor(0xf, 0x1);
+				color = VgaColor(0xf, 0x1);
 			}
 
 			void NewLine() {
@@ -91,8 +91,8 @@ namespace lib {
 	void OutH(const T value) {
 		constexpr auto NibLUT = "0123456789abcdef";
 
-        Outc('0');
-        Outc('x');
+		Outc('0');
+		Outc('x');
 
 		auto shiftCount = sizeof(T) * 8; // bits
 		while(shiftCount) {
@@ -106,4 +106,4 @@ namespace lib {
 		extern "C" u32 ets_syscall_helper(u16 no, u16 arg);
 	}
 
-} // namespace lib
+	} // namespace lib
