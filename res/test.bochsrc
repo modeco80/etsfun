@@ -1,0 +1,31 @@
+plugin_ctrl: unmapped=true, biosdev=true, speaker=true, extfpuirq=true, parallel=true, serial=true, iodebug=false, pcidev=false, usb_uhci=false
+config_interface: textconfig
+display_library: x
+memory: host=32, guest=32
+
+boot: floppy
+floppy_bootsig_check: disabled=0
+floppya: type=1_44, 1_44="bin/exp1440.img", status=inserted, write_protected=1
+
+ata0: enabled=true, ioaddr1=0x1f0, ioaddr2=0x3f0, irq=14
+ata0-master: type=none
+ata0-slave: type=none
+
+pci: enabled=1, chipset=i440fx, slot1=none, slot2=none, slot3=none, slot4=none, slot5=none
+vga: extension=vbe, update_freq=1, realtime=1, ddc=builtin
+cpu: count=1:1:1, ips=50000000, quantum=16, model=p2_klamath, reset_on_triple_fault=1, cpuid_limit_winnt=0, ignore_bad_msrs=1, mwait_is_nop=0
+print_timestamps: enabled=0
+debugger_log: -
+magic_break: enabled=0
+port_e9_hack: enabled=0
+private_colormap: enabled=0
+clock: sync=slowdown, time0=local, rtc_sync=0
+log: -
+logprefix: %t%e%d
+debug: action=ignore
+info: action=report
+error: action=report
+panic: action=ask
+keyboard: type=mf, serial_delay=250, paste_delay=100000, user_shortcut=none
+mouse: type=ps2, enabled=false, toggle=ctrl+mbutton
+speaker: enabled=true, mode=null
