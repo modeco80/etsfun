@@ -8,21 +8,21 @@
 
 #include "lib.hpp"
 
-// The "special" sauce, so to speak
-#include "ets.hpp"
+// VGA debug output
 #include "vga.hpp"
 
-void SvcTest() {
-	// test a unknown syscall (some Phar Lap init code tests a value here and treats it like a pointer)
-	auto unk = ets::Svc(static_cast<ets::SvcCall>(5));
+// The "special" sauce, so to speak
+#include "ets.hpp"
 
-	lib::Outs<vga::Outc>("Svc(5) result: ");
-	lib::Outh<vga::Outc>(unk);
+void SvcTest() {
+	auto controlBlock = ets::svc::GetControlBlock();
+
+	lib::Outs<vga::Outc>("GetControlBlock/Svc(5) result: ");
+	lib::Outh<vga::Outc>(lib::BitCast<u32>(controlBlock));
 	lib::Outs<vga::Outc>("\n");
 
-	// Let's treat it like a pointer like the aforementioned init code does.
-	lib::Outs<vga::Outc>("Svc(5) result treated as a u8* + 100: ");
-	lib::Outh<vga::Outc>(lib::BitCast<u8*>(unk)[100]);
+	lib::Outs<vga::Outc>("GetControlBlock/Svc(5) interface version: ");
+	lib::Outh<vga::Outc>(controlBlock->interfaceVersion);
 	lib::Outs<vga::Outc>("\n");
 }
 
@@ -31,7 +31,7 @@ extern "C" int _start() {
 	vga::gState.row = 10;
 
 	lib::Outs<vga::Outc>("Hello ETS Monitor World\n");
-	lib::Outs<ets::Outc>("this should be printed by a ETS service call\n");
+	lib::Outs<ets::svc::Outc>("this should be printed by a ETS service call\n");
 
 	// Do service call tests
 	SvcTest();

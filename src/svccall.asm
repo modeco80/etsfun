@@ -17,33 +17,39 @@ bits 32
 	sub esp, 8
 	push ebx						; save EBX (it gets clobbered)
 
-	mov dword [ebp - 4], ecx		; call number
+	mov dword [ebp - 4], ecx
 	mov dword [ebp - 8], edx
 
-	mov ax, 0x254a					; Setup system call
-	mov bx, word [ebp - 4]			; call number
+	mov ax, 0x254a					; Service call magic
+	mov bx, word [ebp - 4]			; Load service call number
 %endmacro
 
 %macro svccall_epilogue 0
-	int 0xfe						; do service call
-	mov eax, edx 					; service call returns @ EDX
-	mov dword[ebp - 4], ecx			; restore fastcall arguments
+	int 0xfe						; Do service call
+	mov eax, edx 					; returns @ EDX
+	mov dword[ebp - 4], ecx			; Restore fastcall arguments
 	mov dword[ebp - 8], edx
 	pop ebx							; restore EBX
-	leave
+	leave							; return
 	ret
 %endmacro
 
-global @__ets_svccall0@4
-global @__ets_svccall1@8
-; TODO: Two arguments?
+global @ets_svccall0@4
+global @ets_svccall1@8
+global @ets_svccall2@12
 
-@__ets_svccall0@4:
+@ets_svccall0@4:
 	svccall_prologue
 	svccall_epilogue				; do it and then cleanup
 
-@__ets_svccall1@8:
+@ets_svccall1@8:
 	svccall_prologue
 	mov dword [ebp - 8], edx		; service call argument
 	svccall_epilogue
 
+; TODO: this might be wrong >_<
+@ets_svccall2@12:
+	svccall_prologue
+	mov dword [ebp - 8], edx		; service call argument
+	mov dword [ebp + 8], ecx		; service call argument
+	svccall_epilogue
