@@ -1,3 +1,11 @@
+//
+// A tiny test program.
+//
+// (C) 2023 modeco80 <lily.modeco80@protonmail.ch>.
+//
+// SPDX-License-Identifier: MIT
+//
+
 #include "lib.hpp"
 
 // The "special" sauce, so to speak

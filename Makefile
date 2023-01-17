@@ -1,18 +1,22 @@
-# Basic Makefile (I'd use cmake but lazy..)
+#
+# Makefile for etsfun
+#
+# (C) 2023 modeco80 <lily.modeco80@protonmail.ch>.
+#
+# SPDX-License-Identifier: MIT
+#
+
 NAME = ets_fun
 
-# Add any additional source directories your project may use here
 VPATH = src/
 
-MINGW_TARGET = i686-w64-mingw32
-
 # Toolchain executables
-CC = $(MINGW_TARGET)-gcc
+CC = i686-w64-mingw32-gcc
 AS = nasm -f elf32
-CXX = $(MINGW_TARGET)-g++
+CXX = i686-w64-mingw32-g++
 
-CXXFLAGS = -std=c++20 -Os -ffreestanding -fno-threadsafe-statics -fno-rtti -fno-exceptions -fno-ident -fno-stack-protector -fomit-frame-pointer -fno-unwind-tables -fno-asynchronous-unwind-tables -march=pentium2 -Iinclude -Isrc
-LDFLAGS = -s -Wl,-entry,__start -nostartfiles -nostdlib -nodefaultlibs
+CXXFLAGS = -std=c++20 -Os -ffreestanding -fno-threadsafe-statics -fno-rtti -fno-exceptions -fno-ident -fno-stack-protector -fomit-frame-pointer -fno-unwind-tables -fno-asynchronous-unwind-tables -march=pentium2
+LDFLAGS = -s -Wl,-entry,__start -Wl,--disable-runtime-pseudo-reloc -Wl,--file-alignment,0 -Wl,--section-alignment,0 -nostartfiles -nostdlib -nodefaultlibs
 
 BINDIR = bin
 OBJDIR = obj
@@ -32,7 +36,7 @@ floppy: $(BINDIR)/$(NAME).exe
 
 # test w/ bochs.
 test: floppy
-	-echo 'c' | bochs -qf res/test.bochsrc 2>/dev/null
+	-bochs -qf res/test.bochsrc 2>/dev/null
 
 # dir rules
 $(BINDIR)/:

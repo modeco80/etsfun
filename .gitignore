@@ -1,3 +1,5 @@
 bin/
 obj/
+# bochs gui debugger
+*.ini
 *.swp

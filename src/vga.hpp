@@ -4,6 +4,7 @@
 // (C) 2023 modeco80 <lily.modeco80@protonmail.ch>.
 //
 // SPDX-License-Identifier: MIT
+//
 
 #pragma once
 
