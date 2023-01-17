@@ -17,8 +17,10 @@ namespace ets {
 		Putc = 1
 	};
 
-	extern "C" [[gnu::fastcall]] u32 __ets_svccall0(u16 no);
-	extern "C" [[gnu::fastcall]] u32 __ets_svccall1(u16 no, u32 arg);
+	extern "C" {
+		[[gnu::fastcall]] u32 __ets_svccall0(u16 no);
+		[[gnu::fastcall]] u32 __ets_svccall1(u16 no, u32 arg);
+	}
 
 	inline u32 Svc(SvcCall no) {
 		return __ets_svccall0(static_cast<u16>(no));
@@ -29,7 +31,7 @@ namespace ets {
 	}
 
 	inline void Outc(char c) {
-		// use the kernel's putc service.
+		// Use the Monitor's putc service.
 		static_cast<void>(Svc(SvcCall::Putc, static_cast<u32>(c)));
 	}
 } // namespace ets

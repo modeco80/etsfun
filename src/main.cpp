@@ -17,23 +17,23 @@ void SvcTest() {
 	auto unk = ets::Svc(static_cast<ets::SvcCall>(5));
 
 	lib::Outs<vga::Outc>("Svc(5) result: ");
-	lib::OutH<vga::Outc>(unk);
+	lib::Outh<vga::Outc>(unk);
 	lib::Outs<vga::Outc>("\n");
 
 	// Let's treat it like a pointer like the aforementioned init code does.
-	auto ptr = reinterpret_cast<u8*>(unk);
-	lib::Outs<vga::Outc>("Svc(5) result treated as a pointer + 100: ");
-	lib::OutH<vga::Outc>(ptr[100]);
+	lib::Outs<vga::Outc>("Svc(5) result treated as a u8* + 100: ");
+	lib::Outh<vga::Outc>(lib::BitCast<u8*>(unk)[100]);
 	lib::Outs<vga::Outc>("\n");
 }
 
 extern "C" int _start() {
-	// Nudge the VGA debug console past any ETS stuff
-	vga::gState.row = 15;
+	// Nudge the VGA debug output past any ETS stuff just so we can see it
+	vga::gState.row = 10;
 
 	lib::Outs<vga::Outc>("Hello ETS Monitor World\n");
 	lib::Outs<ets::Outc>("this should be printed by a ETS service call\n");
 
+	// Do service call tests
 	SvcTest();
 
 	// Loop forever

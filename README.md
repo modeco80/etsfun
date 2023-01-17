@@ -5,19 +5,21 @@ After learning the [Hydro Thunder](https://en.wikipedia.org/wiki/Hydro_Thunder) 
 
 I got it working fairly quickly, and I played around with it some until deciding to clean it up.
 
+All the code here, besides the ETS floppy (ofc) is under the MIT License.
+
 # How to build?
 
-You will need mingw-w64 tools. MSVC could be used too but eh
+You will need mingw-w64 tools and NASM.
 
-`make` will build the EXE and copy it on to the boot floppy
+`make` will build the EXE and copy it onto a copy of the boot floppy.
 
-`make test` will test in the [Bochs emulator](https://en.wikipedia.org/wiki/Bochs). I'd use QEMU but the boot loader literally doesn't work.
+`make test` will test that floppy in the [Bochs emulator](https://en.wikipedia.org/wiki/Bochs). I'd use QEMU but the boot loader literally doesn't work.
 
 # Notes
 
 The TNT RTOS seems to be structured like so:
 
-- Monitor (loader & seems to provide very basic bootstrap calls)
+- Monitor (loader & seems to provide very basic bootstrap "service calls")
     - Application (PE file)
         - TNT Kernel libraries
 	        - Runtime (unpacking compressed ROMDATA/such)

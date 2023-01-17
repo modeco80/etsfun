@@ -12,12 +12,24 @@
 
 namespace lib {
 
+	/** identical to std::bit_cast<To, From> **/
+	template<class To, class From> requires(sizeof(To) == sizeof(From))
+	constexpr To BitCast(From from) {
+		return __builtin_bit_cast(To, from);
+	}
+
 	constexpr auto Strlen(const char* str) {
 		auto newptr = str;
 		while(*(++newptr));
 		return (newptr - str);
 	}
 
+	/**
+	 * Output a string.
+	 *
+	 * \tparm Outc A function which takes a character to print.
+	 * \param[in] str String.
+	 */
 	template<auto* Outc>
 	void Outs(const char* str) {
 		auto len = Strlen(str);
@@ -25,8 +37,14 @@ namespace lib {
 			Outc(str[i]);
 	}
 
+	/**
+	 * Output a hex value.
+	 *
+	 * \tparm Outc A function which takes a character to print.
+	 * \param[in] value Value.
+	 */
 	template<auto* Outc, class T>
-	void OutH(const T value) {
+	void Outh(const T value) {
 		constexpr auto NibLUT = "0123456789abcdef";
 
 		Outc('0');

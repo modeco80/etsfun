@@ -8,8 +8,6 @@
 
 NAME = ets_fun
 
-VPATH = src/
-
 # Toolchain executables
 CC = i686-w64-mingw32-gcc
 AS = nasm -f elf32
@@ -23,7 +21,9 @@ OBJDIR = obj
 
 # Project objects
 OBJS = $(OBJDIR)/main.o \
-	$(OBJDIR)/syscall.o
+	$(OBJDIR)/svccall.o
+
+VPATH = src/
 
 .PHONY: all clean floppy test
 
@@ -31,6 +31,7 @@ all: $(BINDIR)/$(NAME).exe floppy
 
 # Make a floppy which has our executable on it
 floppy: $(BINDIR)/$(NAME).exe
+	@echo "Making floppy"
 	cp res/ets.img $(BINDIR)/exp1440.img
 	mcopy -i $(BINDIR)/exp1440.img $(BINDIR)/$(NAME).exe ::/simple.exe
 
